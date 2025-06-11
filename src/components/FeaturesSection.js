@@ -1,35 +1,111 @@
 import React from 'react';
-import './FeaturesSection.css'; // Specific styles
 
 const FeaturesSection = () => {
   const features = [
     {
-      icon: '/assets/icons/calendar-icon.svg',
-      title: 'Smart Calendar Sync',
-      description: 'Connect effortlessly with Google Calendar to keep all your events in one place.',
+      icon: '🤖',
+      title: 'AI-Powered Learning Goals',
+      description: 'Let our AI assistant help you create SMART learning goals tailored to your profession and interests.',
     },
     {
-      icon: '/assets/icons/task-icon.svg', // Assuming you'll have more icons
-      title: 'Intuitive Task Management',
-      description: 'Prioritize and track your tasks with ease, linking them to your schedule.',
+      icon: '📅',
+      title: 'Personalized 3-Week Programs',
+      description: 'Get custom learning programs with 5 tasks per week, designed around your preferred content types.',
     },
     {
-      icon: '/assets/icons/analytics-icon.svg',
-      title: 'Productivity Insights',
-      description: 'Gain valuable insights into your time usage and identify areas for improvement.',
+      icon: '📊',
+      title: 'Progress Tracking & Analytics',
+      description: 'Monitor your learning progress with detailed analytics and insights into your learning patterns.',
+    },
+    {
+      icon: '🎯',
+      title: 'Content Type Optimization',
+      description: 'Choose from videos, books, podcasts, blogs, or learning buddies - we adapt to your style.',
+    },
+    {
+      icon: '💬',
+      title: 'Interactive AI Chat',
+      description: 'Get instant help and guidance from our AI assistant throughout your learning journey.',
+    },
+    {
+      icon: '🏆',
+      title: 'Achievement System',
+      description: 'Stay motivated with achievements and progress milestones as you complete your learning goals.',
     },
   ];
 
   return (
-    <section className="features-section" id="features">
-      <div className="container">
-        <h2>Features Designed for Your Productivity</h2>
-        <div className="features-grid">
+    <section style={{
+      backgroundColor: '#f8f9fa',
+      padding: '4rem 2rem'
+    }}>
+      <div style={{
+        maxWidth: '1200px',
+        margin: '0 auto',
+        textAlign: 'center'
+      }}>
+        <h2 style={{
+          fontSize: 'clamp(2rem, 4vw, 2.5rem)',
+          marginBottom: '1rem',
+          color: '#333'
+        }}>
+          Features Designed for Your Learning Success
+        </h2>
+        <p style={{
+          fontSize: 'clamp(1rem, 2vw, 1.2rem)',
+          color: '#666',
+          marginBottom: '3rem',
+          maxWidth: '600px',
+          margin: '0 auto 3rem auto'
+        }}>
+          Discover powerful tools that adapt to your learning style and help you achieve your goals faster.
+        </p>
+        
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gap: '2rem',
+          textAlign: 'left'
+        }}>
           {features.map((feature, index) => (
-            <div className="feature-card" key={index}>
-              <img src={feature.icon} alt={feature.title} className="feature-icon" />
-              <h3>{feature.title}</h3>
-              <p>{feature.description}</p>
+            <div key={index} style={{
+              backgroundColor: 'white',
+              borderRadius: '12px',
+              padding: '2rem',
+              boxShadow: '0 4px 6px rgba(0,0,0,0.07)',
+              transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+              cursor: 'pointer'
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.transform = 'translateY(-8px)';
+              e.currentTarget.style.boxShadow = '0 8px 25px rgba(0,0,0,0.15)';
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 4px 6px rgba(0,0,0,0.07)';
+            }}>
+              <div style={{
+                fontSize: '3rem',
+                marginBottom: '1rem',
+                display: 'block'
+              }}>
+                {feature.icon}
+              </div>
+              <h3 style={{
+                fontSize: '1.25rem',
+                marginBottom: '1rem',
+                color: '#333',
+                fontWeight: 'bold'
+              }}>
+                {feature.title}
+              </h3>
+              <p style={{
+                color: '#666',
+                lineHeight: '1.6',
+                margin: 0
+              }}>
+                {feature.description}
+              </p>
             </div>
           ))}
         </div>
