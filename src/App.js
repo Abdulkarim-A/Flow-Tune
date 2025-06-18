@@ -1,52 +1,23 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import './styles/main.css'; // Your main application styles
-
-// Import homepage components
-import Header from './components/Header';
-import HeroSection from './components/HeroSection';
-import FeaturesSection from './components/FeaturesSection';
-import HowItWorksSection from './components/HowItWorksSection';
-import TestimonialsSection from './components/TestimonialsSection';
-import CallToActionSection from './components/CallToActionSection';
-import Footer from './components/Footer';
-
-// Import learning workflow pages
-import LoginPage from './pages/LoginPage';
-import OnboardingPage1 from './pages/OnboardingPage1';
-import OnboardingPage2 from './pages/OnboardingPage2';
-import OverviewPage from './pages/OverviewPage';
-import SimpleDashboardPage from './pages/SimpleDashboardPage';
-
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Homepage from './Homepage';
+import LoginRegistration from './LoginRegistration';
+import OnboardingPage1 from './OnboardingPage1';
+import OnboardingPage2 from './OnboardingPage2';
+import OverviewPage from './OverviewPage'; // Import the new component
+// ... (other imports)
 
 function App() {
   return (
     <Router>
       <div className="App">
         <Routes>
-          {/* Public-facing Homepage */}
-          <Route path="/" element={
-            <>
-              <Header />
-              <main>
-                <HeroSection />
-                <div id="features">
-                  <FeaturesSection />
-                </div>
-                <HowItWorksSection />
-                <TestimonialsSection />
-                <CallToActionSection />
-              </main>
-              <Footer />
-            </>
-          } />
-
-          {/* Learning Workflow Pages */}
-          <Route path="/login" element={<LoginPage />} />
+          <Route path="/" element={<Homepage />} />
+          <Route path="/login" element={<LoginRegistration />} />
           <Route path="/onboarding-1" element={<OnboardingPage1 />} />
           <Route path="/onboarding-2" element={<OnboardingPage2 />} />
-          <Route path="/overview" element={<OverviewPage />} />
-          <Route path="/dashboard" element={<SimpleDashboardPage />} />
+          <Route path="/overview" element={<OverviewPage />} /> {/* Add this line */}
+          {/* ... (other routes) */}
         </Routes>
       </div>
     </Router>
