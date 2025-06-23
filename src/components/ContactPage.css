@@ -1,0 +1,11 @@
+/* src/pages/ContactPage.css */
+.contact-page {
+  position: relative;
+  width: 1728px;
+  height: 1117px;
+  overflow-x: scroll; /* As per your Figma */
+  background: #FFFFFF; /* As per your Figma */
+  /* Add any specific styles for your contact page content */
+  padding: 20px; /* Example padding */
+  box-sizing: border-box; /* Ensures padding doesn't add to total width/height */
+}
