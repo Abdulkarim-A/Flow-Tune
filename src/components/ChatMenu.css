@@ -1,0 +1,32 @@
+/* src/components/ChatMenu.css */
+.chat-menu {
+  width: 250px; /* Example width */
+  background-color: #f8f8f8;
+  border-left: 1px solid #eee;
+  padding: 20px;
+  position: absolute; /* Or fixed, depending on layout */
+  right: -250px; /* Start off-screen */
+  top: 0;
+  bottom: 0;
+  transition: right 0.3s ease-in-out;
+  z-index: 999; /* Ensure it's above other content */
+}
+
+.chat-menu.open {
+  right: 0; /* Slide in */
+}
+
+.chat-menu ul {
+  list-style: none;
+  padding: 0;
+}
+
+.chat-menu ul li {
+  padding: 10px 0;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+
+.chat-menu ul li:last-child {
+  border-bottom: none;
+}
