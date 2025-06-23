@@ -1,41 +1,49 @@
+// src/Homepage.js
+
 import React from 'react';
-import './Homepage.css'; // You'll create this CSS file next
+import HeroSection from './components/HeroSection';
+import FeaturesSection from './components/FeaturesSection';
+import CallToActionSection from './components/CallToActionSection';
+import TestimonialsSection from './components/TestimonialsSection';
+import HowItWorksSection from './components/HowItWorksSection';
+
+// Assuming Homepage.css handles general page layout
+import './Homepage.css';
 
 const Homepage = () => {
   return (
-    <div className="homepage-container">
-      <header className="homepage-header">
-        <h1>FlowTune - Your AI-Powered Learning Journey</h1>
-        <p>Create personalized learning paths with intelligent goal setting, content recommendations, and progress tracking.</p>
-        <button onClick={() => window.location.href = '/login'} className="get-started-button">
-          Get Started for Free
-        </button>
-      </header>
+    <div
+      className="homepage-container"
+      // Applying Figma dimensions directly for the main layout.
+      // For responsiveness, these would typically be handled via CSS classes and media queries.
+      style={{
+        position: 'relative',
+        width: '1728px',
+        height: '1117px',
+        overflowX: 'scroll',
+        background: '#FFFFFF',
+      }}
+    >
+      {/* Hero Section: Typically the first and most prominent section */}
+      <HeroSection />
 
-      <section className="features-section">
-        <h2>Unlock Your Learning Potential</h2>
-        <div className="feature-grid">
-          <div className="feature-item">
-            <i className="fas fa-bullseye"></i> {/* Example icon, you'll need to link Font Awesome */}
-            <h3>Intelligent Goal Setting</h3>
-            <p>Define clear, actionable SMART goals with AI assistance.</p>
-          </div>
-          <div className="feature-item">
-            <i className="fas fa-book-open"></i>
-            <h3>Personalized Content</h3>
-            <p>Receive tailored recommendations for videos, books, podcasts, and more.</p>
-          </div>
-          <div className="feature-item">
-            <i className="fas fa-chart-line"></i>
-            <h3>Effortless Progress Tracking</h3>
-            <p>Monitor your learning journey with intuitive dashboards and statistics.</p>
-          </div>
-        </div>
-      </section>
+      {/* Features Section: Highlights key features of Flow Tune */}
+      <FeaturesSection />
 
-      <footer className="homepage-footer">
-        <p>&copy; 2025 FlowTune. All rights reserved.</p>
-      </footer>
+      {/* How It Works Section: Explains the user journey or core process */}
+      <HowItWorksSection />
+
+      {/* Testimonials Section: Builds trust with user reviews */}
+      <TestimonialsSection />
+
+      {/* Call to Action Section: Encourages users to sign up or take next step */}
+      <CallToActionSection />
+
+      {/*
+        You might also want to include a Footer component here if it's not
+        part of the main App.js layout.
+        <Footer />
+      */}
     </div>
   );
 };
