@@ -1,390 +1,90 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+// src/pages/SimpleDashboardPage.js
+
+import React from 'react';
+import Card from '../components/Card'; // Import the Card component
+
+// Import existing CSS for the page, and ensure it can incorporate dashboard-specific styles
+import './SimpleDashboardPage.css'; // Make sure this file exists and is linked
 
 const SimpleDashboardPage = () => {
-  const [stats, setStats] = useState(null);
-  const [recentTasks, setRecentTasks] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const navigate = useNavigate();
+  // Mock data for dashboard cards
+  const tasks = [
+    { id: 1, title: 'Complete Project Report', status: 'In Progress', dueDate: '2025-07-05' },
+    { id: 2, title: 'Schedule Team Meeting', status: 'Pending', dueDate: '2025-06-28' },
+    { id: 3, title: 'Review Q2 Budget', status: 'Completed', dueDate: '2025-06-20' },
+  ];
 
-  const userId = localStorage.getItem('userId');
-  const username = localStorage.getItem('username');
+  const upcomingEvents = [
+    { id: 1, title: 'Client Demo', date: '2025-07-01', time: '10:00 AM' },
+    { id: 2, title: 'Marketing Brainstorm', date: '2025-07-03', time: '02:00 PM' },
+  ];
 
-  useEffect(() => {
-    if (!userId) {
-      navigate('/login');
-      return;
-    }
-    loadDashboardData();
-  }, [userId, navigate]);
-
-  const loadDashboardData = async () => {
-    try {
-      // Load task statistics
-      const statsResponse = await fetch(`http://localhost:8000/api/tasks/stats/?user_id=${userId}`);
-      if (statsResponse.ok) {
-        const statsData = await statsResponse.json();
-        setStats(statsData);
-      }
-
-      // Load recent tasks
-      const tasksResponse = await fetch(`http://localhost:8000/api/tasks/?user_id=${userId}&ordering=-created_at`);
-      if (tasksResponse.ok) {
-        const tasksData = await tasksResponse.json();
-        setRecentTasks(tasksData.results?.slice(0, 10) || tasksData.slice(0, 10) || []);
-      }
-    } catch (err) {
-      setError('Failed to load dashboard data');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const getContentTypeIcon = (contentType) => {
-    const icons = {
-      video: '📹',
-      books: '📚',
-      podcasts: '🎧',
-      blogs: '📝',
-      buddy: '👥'
-    };
-    return icons[contentType] || '📋';
-  };
-
-  const getStatusColor = (status) => {
-    const colors = {
-      pending: '#ffc107',
-      in_progress: '#17a2b8',
-      completed: '#28a745',
-      cancelled: '#dc3545'
-    };
-    return colors[status] || '#6c757d';
-  };
-
-  if (loading) {
-    return (
-      <div style={{ 
-        minHeight: '100vh', 
-        display: 'flex', 
-        alignItems: 'center', 
-        justifyContent: 'center',
-        backgroundColor: '#f5f5f5'
-      }}>
-        <div style={{ textAlign: 'center' }}>
-          <h2>Loading dashboard...</h2>
-          <p>📊 Preparing your progress data</p>
-        </div>
-      </div>
-    );
-  }
+  const recentNotes = [
+    { id: 1, title: 'Meeting Notes - 2025-06-21', content: 'Discussed Q3 strategy and resource allocation.' },
+    { id: 2, title: 'Idea: New Feature Integration', content: 'Consider integrating real-time collaboration for tasks.' },
+  ];
 
   return (
-    <div style={{ 
-      minHeight: '100vh', 
-      backgroundColor: '#f5f5f5',
-      padding: '2rem'
-    }}>
-      <div style={{
-        maxWidth: '1200px',
-        margin: '0 auto'
-      }}>
-        {/* Header */}
-        <div style={{
-          backgroundColor: 'white',
-          borderRadius: '8px',
-          padding: '2rem',
-          marginBottom: '2rem',
-          boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-          textAlign: 'center'
-        }}>
-          <h1 style={{ margin: '0 0 0.5rem 0', color: '#333' }}>
-            📊 Learning Dashboard
-          </h1>
-          <p style={{ margin: 0, color: '#666', fontSize: '1.1rem' }}>
-            Welcome back, {username}! Here's your progress overview.
-          </p>
+    <div
+      className="dashboard-container"
+      // Applying Figma dimensions directly for the main layout.
+      // For responsiveness, these would typically be handled via CSS classes and media queries.
+      style={{
+        position: 'relative',
+        width: '1728px',
+        height: '1117px',
+        overflowX: 'scroll',
+        background: '#FFFFFF',
+        padding: '20px',
+        boxSizing: 'border-box', // Include padding in the total width/height
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '20px', // Spacing between sections
+      }}
+    >
+      <h1>Your Flow Tune Dashboard</h1>
+
+      {/* Section for Tasks */}
+      <section className="dashboard-section tasks-section">
+        <h2>My Tasks</h2>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
+          {tasks.map(task => (
+            <Card key={task.id} title={task.title}>
+              <p>Status: {task.status}</p>
+              <p>Due: {task.dueDate}</p>
+            </Card>
+          ))}
         </div>
+      </section>
 
-        {error && (
-          <div style={{
-            color: 'red',
-            marginBottom: '2rem',
-            padding: '1rem',
-            backgroundColor: '#fee',
-            borderRadius: '8px',
-            border: '1px solid #fcc'
-          }}>
-            {error}
-          </div>
-        )}
-
-        {/* Navigation */}
-        <div style={{ 
-          marginBottom: '2rem',
-          display: 'flex',
-          gap: '1rem',
-          flexWrap: 'wrap'
-        }}>
-          <button
-            onClick={() => navigate('/overview')}
-            style={{
-              padding: '0.75rem 1.5rem',
-              backgroundColor: '#007bff',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              fontSize: '1rem',
-              cursor: 'pointer'
-            }}
-          >
-            🎯 View Learning Program
-          </button>
-          
-          <button
-            onClick={() => navigate('/')}
-            style={{
-              padding: '0.75rem 1.5rem',
-              backgroundColor: '#6c757d',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              fontSize: '1rem',
-              cursor: 'pointer'
-            }}
-          >
-            🏠 Home
-          </button>
+      {/* Section for Upcoming Events */}
+      <section className="dashboard-section events-section">
+        <h2>Upcoming Events</h2>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
+          {upcomingEvents.map(event => (
+            <Card key={event.id} title={event.title}>
+              <p>Date: {event.date}</p>
+              <p>Time: {event.time}</p>
+            </Card>
+          ))}
         </div>
+      </section>
 
-        {/* Statistics Cards */}
-        {stats && (
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-            gap: '1rem',
-            marginBottom: '2rem'
-          }}>
-            <div style={{
-              backgroundColor: 'white',
-              borderRadius: '8px',
-              padding: '1.5rem',
-              boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-              textAlign: 'center'
-            }}>
-              <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>📈</div>
-              <h3 style={{ margin: '0 0 0.5rem 0', color: '#333' }}>Total Tasks</h3>
-              <div style={{ fontSize: '2rem', fontWeight: 'bold', color: '#007bff' }}>
-                {stats.total_tasks}
-              </div>
-            </div>
-
-            <div style={{
-              backgroundColor: 'white',
-              borderRadius: '8px',
-              padding: '1.5rem',
-              boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-              textAlign: 'center'
-            }}>
-              <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>✅</div>
-              <h3 style={{ margin: '0 0 0.5rem 0', color: '#333' }}>Completed</h3>
-              <div style={{ fontSize: '2rem', fontWeight: 'bold', color: '#28a745' }}>
-                {stats.completed}
-              </div>
-            </div>
-
-            <div style={{
-              backgroundColor: 'white',
-              borderRadius: '8px',
-              padding: '1.5rem',
-              boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-              textAlign: 'center'
-            }}>
-              <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>⏳</div>
-              <h3 style={{ margin: '0 0 0.5rem 0', color: '#333' }}>In Progress</h3>
-              <div style={{ fontSize: '2rem', fontWeight: 'bold', color: '#17a2b8' }}>
-                {stats.in_progress}
-              </div>
-            </div>
-
-            <div style={{
-              backgroundColor: 'white',
-              borderRadius: '8px',
-              padding: '1.5rem',
-              boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-              textAlign: 'center'
-            }}>
-              <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>📋</div>
-              <h3 style={{ margin: '0 0 0.5rem 0', color: '#333' }}>Pending</h3>
-              <div style={{ fontSize: '2rem', fontWeight: 'bold', color: '#ffc107' }}>
-                {stats.pending}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Progress Overview */}
-        {stats && stats.total_tasks > 0 && (
-          <div style={{
-            backgroundColor: 'white',
-            borderRadius: '8px',
-            padding: '2rem',
-            marginBottom: '2rem',
-            boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
-          }}>
-            <h2 style={{ margin: '0 0 1.5rem 0' }}>📊 Overall Progress</h2>
-            
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '1rem',
-              marginBottom: '1rem'
-            }}>
-              <div style={{
-                flex: 1,
-                backgroundColor: '#e9ecef',
-                borderRadius: '10px',
-                height: '20px',
-                overflow: 'hidden'
-              }}>
-                <div style={{
-                  backgroundColor: '#28a745',
-                  height: '100%',
-                  width: `${(stats.completed / stats.total_tasks) * 100}%`,
-                  borderRadius: '10px',
-                  transition: 'width 0.3s ease'
-                }} />
-              </div>
-              <div style={{ fontWeight: 'bold', minWidth: '60px' }}>
-                {Math.round((stats.completed / stats.total_tasks) * 100)}%
-              </div>
-            </div>
-            
-            <p style={{ margin: 0, color: '#666' }}>
-              You've completed {stats.completed} out of {stats.total_tasks} tasks. Keep going! 🚀
-            </p>
-          </div>
-        )}
-
-        {/* Content Type Breakdown */}
-        {stats && stats.completed_by_content_type && (
-          <div style={{
-            backgroundColor: 'white',
-            borderRadius: '8px',
-            padding: '2rem',
-            marginBottom: '2rem',
-            boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
-          }}>
-            <h2 style={{ margin: '0 0 1.5rem 0' }}>🎯 Learning Style Analysis</h2>
-            <p style={{ margin: '0 0 1.5rem 0', color: '#666' }}>
-              Tasks completed by content type:
-            </p>
-            
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-              gap: '1rem'
-            }}>
-              {Object.entries(stats.completed_by_content_type).map(([type, count]) => (
-                <div key={type} style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  padding: '1rem',
-                  backgroundColor: '#f8f9fa',
-                  borderRadius: '8px'
-                }}>
-                  <div style={{ fontSize: '1.5rem' }}>
-                    {getContentTypeIcon(type)}
-                  </div>
-                  <div>
-                    <div style={{ fontWeight: 'bold', textTransform: 'capitalize' }}>
-                      {type}
-                    </div>
-                    <div style={{ color: '#666' }}>
-                      {count} completed
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Recent Tasks */}
-        <div style={{
-          backgroundColor: 'white',
-          borderRadius: '8px',
-          padding: '2rem',
-          boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
-        }}>
-          <h2 style={{ margin: '0 0 1.5rem 0' }}>🕒 Recent Tasks</h2>
-          
-          {recentTasks.length > 0 ? (
-            <div style={{ display: 'grid', gap: '1rem' }}>
-              {recentTasks.map((task) => (
-                <div key={task.id} style={{
-                  border: '1px solid #ddd',
-                  borderRadius: '8px',
-                  padding: '1rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '1rem',
-                  backgroundColor: task.status === 'completed' ? '#f8f9fa' : 'white'
-                }}>
-                  <div style={{ fontSize: '1.5rem' }}>
-                    {getContentTypeIcon(task.content_type)}
-                  </div>
-                  
-                  <div style={{ flex: 1 }}>
-                    <h4 style={{ 
-                      margin: '0 0 0.25rem 0',
-                      color: task.status === 'completed' ? '#6c757d' : '#333',
-                      textDecoration: task.status === 'completed' ? 'line-through' : 'none'
-                    }}>
-                      {task.title}
-                    </h4>
-                    <p style={{ margin: 0, color: '#666', fontSize: '0.9rem' }}>
-                      {task.description?.substring(0, 100)}...
-                    </p>
-                  </div>
-                  
-                  <span style={{
-                    backgroundColor: getStatusColor(task.status),
-                    color: 'white',
-                    padding: '0.25rem 0.75rem',
-                    borderRadius: '20px',
-                    fontSize: '0.8rem',
-                    fontWeight: 'bold'
-                  }}>
-                    {task.status.replace('_', ' ').toUpperCase()}
-                  </span>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div style={{ textAlign: 'center', padding: '2rem', color: '#666' }}>
-              <p>No tasks found. Complete your onboarding to get started!</p>
-              <button
-                onClick={() => navigate('/onboarding-1')}
-                style={{
-                  padding: '0.75rem 1.5rem',
-                  backgroundColor: '#007bff',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '4px',
-                  fontSize: '1rem',
-                  cursor: 'pointer'
-                }}
-              >
-                Start Onboarding
-              </button>
-            </div>
-          )}
+      {/* Section for Recent Notes or Quick Access */}
+      <section className="dashboard-section notes-section">
+        <h2>Recent Notes</h2>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
+          {recentNotes.map(note => (
+            <Card key={note.id} title={note.title}>
+              <p>{note.content.substring(0, 100)}...</p> {/* Displaying a snippet */}
+            </Card>
+          ))}
         </div>
-      </div>
+      </section>
+
+      {/* Add more sections as needed, e.g., Calendar Sync status, Quick Links etc. */}
     </div>
   );
 };
 
-export default SimpleDashboardPage; 
+export default SimpleDashboardPage;
