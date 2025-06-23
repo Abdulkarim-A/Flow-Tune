@@ -1,0 +1,18 @@
+/* src/components/ChatMessage.css */
+.chat-message {
+  padding: 8px 12px;
+  margin-bottom: 10px;
+  border-radius: 15px;
+  max-width: 70%;
+  word-wrap: break-word;
+}
+
+.chat-message.user {
+  background-color: #DCF8C6; /* Example color for user messages */
+  align-self: flex-end; /* Puts user messages on the right */
+}
+
+.chat-message.other {
+  background-color: #EAEAEA; /* Example color for other messages */
+  align-self: flex-start; /* Puts other messages on the left */
+}
